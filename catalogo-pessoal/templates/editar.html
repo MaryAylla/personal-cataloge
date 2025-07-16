@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Obra{% endblock %}
+
+{% block content %}
+    <h2>Editar: {{ obra.titulo }}</h2>
+    <form method="post">
+        <div>
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" value="{{ obra.titulo }}" required>
+        </div>
+        <div>
+            <label for="url_capa">URL da Imagem da Capa:</label>
+            <input type="url" id="url_capa" name="url_capa" value="{{ obra.url_capa or '' }}">
+        </div>
+        <div>
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo" required>
+                <option value="Livro" {% if obra.tipo == 'Livro' %}selected{% endif %}>Livro</option>
+                <option value="Filme" {% if obra.tipo == 'Filme' %}selected{% endif %}>Filme</option>
+                <option value="Série" {% if obra.tipo == 'Série' %}selected{% endif %}>Série</option>
+                <option value="Anime" {% if obra.tipo == 'Anime' %}selected{% endif %}>Anime</option>
+                <option value="Jogo" {% if obra.tipo == 'Jogo' %}selected{% endif %}>Jogo</option>
+            </select>
+        </div>
+        <div>
+            <label for="categoria">Categoria/Gênero:</label>
+            <input type="text" id="categoria" name="categoria" value="{{ obra.categoria }}" required>
+        </div>
+        <div>
+            <label for="nota">Nota (1 a 10):</label>
+            <input type="number" id="nota" name="nota" min="1" max="10" value="{{ obra.nota }}" required>
+        </div>
+        <div>
+            <label for="comentario">Comentário:</label>
+            <textarea name="comentario" id="comentario" rows="4">{{ obra.comentario or '' }}</textarea>
+        </div>
+        <button type="submit">Salvar Alterações</button>
+    </form>
+{% endblock %}

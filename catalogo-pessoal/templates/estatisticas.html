@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Estatísticas do Catálogo{% endblock %}
+
+{% block content %}
+    <h2>Estatísticas do Catálogo</h2>
+
+    <div class="stat-card-container">
+        <div class="stat-card">
+            <h3>Total de Obras</h3>
+            <p>{{ total_obras }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Nota Média Geral</h3>
+            <p>{{ nota_media }} ★</p>
+        </div>
+    </div>
+
+    <div class="stats-group">
+        <h3>Obras por Categoria</h3>
+        {% if contagem_por_categoria %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria, contagem in contagem_por_categoria %}
+                    <tr>
+                        <td>{{ categoria }}</td>
+                        <td>{{ contagem }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum dado para exibir.</p>
+        {% endif %}
+    </div>
+
+    <div class="stats-group">
+        <h3>Obras por Tipo</h3>
+        {% if contagem_por_tipo %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo, contagem in contagem_por_tipo %}
+                    <tr>
+                        <td>{{ tipo }}</td>
+                        <td>{{ contagem }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum dado para exibir.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

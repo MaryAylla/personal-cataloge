@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Minha Coleção{% endblock %}
+
+{% block content %}
+<h2>Minha Coleção</h2>
+
+<div class="filtros-container">
+    <form method="get" action="{{ url_for('index') }}">
+        <div class="filtro-item">
+            <label for="filtro_tipo">Filtrar por Tipo:</label>
+            <select name="tipo" id="filtro_tipo">
+                <option value="">Todos os Tipos</option>
+                {% for tipo in tipos %}
+                <option value="{{ tipo }}" {% if tipo==filtro_tipo_ativo %}selected{% endif %}>{{ tipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filtro-item">
+            <label for="filtro_categoria">Filtrar por Categoria:</label>
+            <select name="categoria" id="filtro_categoria">
+                <option value="">Todas as Categorias</option>
+                {% for categoria in categorias %}
+                <option value="{{ categoria }}" {% if categoria==filtro_categoria_ativo %}selected{% endif %}>{{
+                    categoria }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filtro-botoes">
+            <button type="submit">Filtrar</button>
+            <a href="{{ url_for('index') }}">Limpar Filtros</a>
+        </div>
+    </form>
+</div>
+
+{% if obras %}
+<div class="catalogo-grid">
+    {% for obra in obras %}
+    <div class="card">
+        <img src="{{ obra.url_capa or 'https://via.placeholder.com/250x350.png?text=Sem+Capa' }}"
+            alt="Capa de {{ obra.titulo }}">
+        <div class="card-body">
+            <h3>{{ obra.titulo }}</h3>
+            <p class="card-info"><strong>Tipo:</strong> {{ obra.tipo }}</p>
+            <p class="card-info"><strong>Categoria:</strong> {{ obra.categoria }}</p>
+            <p class="card-nota">Nota: {{ obra.nota }}/10 ★</p>
+
+            {% if obra.comentario %}
+            <blockquote>"{{ obra.comentario }}"</blockquote>
+            {% endif %}
+
+            <div class="card-actions">
+                <a href="{{ url_for('editar', obra_id=obra.id) }}" class="btn-editar">Editar</a>
+                <form action="{{ url_for('deletar', obra_id=obra.id) }}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-deletar"
+                        onclick="return confirm('Tem certeza que deseja deletar esta obra?');">Deletar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Nenhuma obra cadastrada ainda. Que tal <a href="{{ url_for('adicionar') }}">adicionar a primeira</a>?</p>
+{% endif %}
+{% endblock %}
